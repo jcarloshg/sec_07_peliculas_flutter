@@ -19,6 +19,7 @@ class PosterName extends StatelessWidget {
               image: NetworkImage('http://via.placeholder.com/200x300'),
               fit: BoxFit.cover,
               height: 150,
+              width: 100,
             ),
           ),
           const SizedBox(width: 20),
