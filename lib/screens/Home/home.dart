@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sec_07_peliculas_flutter/providers/movies_provider.dart';
@@ -33,6 +35,7 @@ class HomeScreen extends StatelessWidget {
             MovieSlider(
               movies: moviesProvider.onDisplayPupularMovies,
               title: 'Pelis populares',
+              onNextPage: () => moviesProvider.getPopular(),
             ),
             const SizedBox(height: 10),
           ],

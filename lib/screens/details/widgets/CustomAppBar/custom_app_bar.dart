@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget {
-  const CustomAppBar({Key? key}) : super(key: key);
+  final String backdropPath;
+  final String title;
+
+  const CustomAppBar({
+    Key? key,
+    required this.backdropPath,
+    required this.title,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,16 +22,16 @@ class CustomAppBar extends StatelessWidget {
         title: Container(
           width: double.infinity,
           alignment: Alignment.bottomRight,
-          padding: const EdgeInsets.only(bottom: 10),
+          padding: const EdgeInsets.all(10),
           color: Colors.black45,
-          child: const Text(
-            '[MOVIE_TITLE]',
-            style: TextStyle(fontSize: 16),
+          child: Text(
+            title,
+            style: const TextStyle(fontSize: 16),
           ),
         ),
-        background: const FadeInImage(
-          placeholder: AssetImage('assets/loading.gif'),
-          image: NetworkImage('http://via.placeholder.com/500x300'),
+        background: FadeInImage(
+          placeholder: const AssetImage('assets/loading.gif'),
+          image: NetworkImage(backdropPath),
           fit: BoxFit.cover,
         ),
       ),

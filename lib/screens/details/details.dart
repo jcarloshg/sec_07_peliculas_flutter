@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sec_07_peliculas_flutter/models/models_bussiness/models_bussiness.dart';
 import 'package:sec_07_peliculas_flutter/screens/details/widgets/widgets.dart';
 import 'package:sec_07_peliculas_flutter/widgets/widgets.dart';
 
@@ -7,21 +8,28 @@ class DetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String movie =
-        ModalRoute.of(context)?.settings.arguments.toString() ?? 'NOT-MOVIE';
+    final Movie movie = ModalRoute.of(context)!.settings.arguments as Movie;
 
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          const CustomAppBar(),
+          CustomAppBar(
+            backdropPath: movie.fullBackdropPath,
+            title: movie.title,
+          ),
           SliverList(
             delegate: SliverChildListDelegate(
               [
-                const PosterName(),
-                const Overview(),
-                const Overview(),
-                const Overview(),
-                const CatingCards()
+                PosterName(
+                  title: movie.title,
+                  originalTitle: movie.originalTitle,
+                  voteAverage: movie.voteAverage,
+                  posterPath: movie.fullPosterImg,
+                ),
+                Overview(overview: movie.overview),
+                Overview(overview: movie.overview),
+                Overview(overview: movie.overview),
+                const CatingCards(),
               ],
             ),
           ),
