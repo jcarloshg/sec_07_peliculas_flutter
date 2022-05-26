@@ -33,6 +33,10 @@ class Cast {
   String originalName;
   String? profilePath;
 
+  get fullProfilePath => profilePath == null
+      ? 'https://i.stack.imgur.com/GNhxO.png'
+      : 'https://image.tmdb.org/t/p/w500/$profilePath';
+
   factory Cast.fromJson(String str) => Cast.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());

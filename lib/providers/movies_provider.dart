@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
 import 'package:sec_07_peliculas_flutter/models/models_bussiness/models_bussiness.dart';
 import 'package:sec_07_peliculas_flutter/models/response/response.dart';
@@ -14,6 +13,8 @@ class MoviesProvider extends ChangeNotifier {
   List<Movie> onDisplayMovies = [];
   List<Movie> onDisplayPupularMovies = [];
   int _popularPage = 0;
+
+  Map<int, List<Cast>> moviesCast = {};
 
   MoviesProvider() {
     getNowPlaying();
@@ -52,5 +53,19 @@ class MoviesProvider extends ChangeNotifier {
     onDisplayMovies = [...nowPlayingResponse.results];
 
     notifyListeners();
+  }
+
+  Future<List<Cast>> getMovieCast(int movieId) async {
+    
+    if (moviesCast.containsKey(movieId)) return moviesCast[movieId]!;
+
+    final jsonData =
+        await _getJsonData('/3/movie/$movieId/credits', _popularPage);
+
+    final creditResponse = CreditResponse.fromJson(jsonData);
+
+    if (moviesCast[movieId] == null) moviesCast[movieId] = creditResponse.cast;
+
+    return creditResponse.cast;
   }
 }

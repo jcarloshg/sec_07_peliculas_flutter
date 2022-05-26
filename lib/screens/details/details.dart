@@ -29,7 +29,7 @@ class DetailsScreen extends StatelessWidget {
                 Overview(overview: movie.overview),
                 Overview(overview: movie.overview),
                 Overview(overview: movie.overview),
-                const CatingCards(),
+                CatingCards(movieId: movie.id),
               ],
             ),
           ),
