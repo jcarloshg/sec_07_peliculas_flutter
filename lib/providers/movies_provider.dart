@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:sec_07_peliculas_flutter/models/models_bussiness/models_bussiness.dart';
@@ -22,7 +24,7 @@ class MoviesProvider extends ChangeNotifier {
   }
 
   Future<String> _getJsonData(String endpoint, [int page = 1]) async {
-    var url = Uri.https(_apiUrl, endpoint, {
+    final url = Uri.https(_apiUrl, endpoint, {
       'api_key': _apiKey,
       'language': _apiLanguage,
       'page': '$page',
@@ -56,7 +58,6 @@ class MoviesProvider extends ChangeNotifier {
   }
 
   Future<List<Cast>> getMovieCast(int movieId) async {
-    
     if (moviesCast.containsKey(movieId)) return moviesCast[movieId]!;
 
     final jsonData =
@@ -67,5 +68,23 @@ class MoviesProvider extends ChangeNotifier {
     if (moviesCast[movieId] == null) moviesCast[movieId] = creditResponse.cast;
 
     return creditResponse.cast;
+  }
+
+  Future<List<Movie>> searchMovie(String query) async {
+    final url = Uri.https(
+      _apiUrl,
+      '/3/search/movie',
+      {
+        'api_key': _apiKey,
+        'language': _apiLanguage,
+        'query': query,
+      },
+    );
+
+    final repsonse = await http.get(url);
+    final SearchResponse searchResponse =
+        SearchResponse.fromJson(repsonse.body);
+
+    return searchResponse.results;
   }
 }
