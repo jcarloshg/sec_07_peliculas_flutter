@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sec_07_peliculas_flutter/models/models_bussiness/models_bussiness.dart';
@@ -66,6 +64,14 @@ class MovieSearchDelegate extends SearchDelegate {
           return _searchMovieEmpty('No hay pelis relacionadas');
         }
 
+        final movies = snapshot.data?.map((movie) {
+          movie.heroId = 'buildSuggestions-${movie.id}';
+          return movie;
+        }).toList();
+
+        // final List<Movie> listMovies = [];
+        // movies?.forEach((element) => print(element));
+
         return GridView.builder(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3,
@@ -74,14 +80,10 @@ class MovieSearchDelegate extends SearchDelegate {
             childAspectRatio: 0.5,
           ),
           itemCount: snapshot.data?.length,
-          itemBuilder: (BuildContext context, int index) =>
-              ListTitleMovie(movie: snapshot.data![index]),
-        );
-
-        return ListView.builder(
-          itemCount: snapshot.data!.length,
-          itemBuilder: (context, index) =>
-              ListTitleMovie(movie: snapshot.data![index]),
+          itemBuilder: (BuildContext context, int index) => Hero(
+            tag: movies![index].heroId!,
+            child: ListTitleMovie(movie: movies[index]),
+          ),
         );
       },
     );

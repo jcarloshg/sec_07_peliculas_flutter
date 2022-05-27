@@ -8,24 +8,29 @@ class MoviewPoster extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    movie.heroId = 'MoviewPoster-${movie.id}';
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 10),
       child: Column(
         children: [
-          GestureDetector(
-            onTap: () => Navigator.pushNamed(
-              context,
-              'DatailsScreen',
-              arguments: movie,
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: FadeInImage(
-                placeholder: const AssetImage('assets/no-image.jpg'),
-                image: NetworkImage(movie.fullPosterImg),
-                width: 130,
-                height: 190,
-                fit: BoxFit.cover,
+          Hero(
+            tag: movie.heroId!,
+            child: GestureDetector(
+              onTap: () => Navigator.pushNamed(
+                context,
+                'DatailsScreen',
+                arguments: movie,
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: FadeInImage(
+                  placeholder: const AssetImage('assets/no-image.jpg'),
+                  image: NetworkImage(movie.fullPosterImg),
+                  width: 130,
+                  height: 190,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),

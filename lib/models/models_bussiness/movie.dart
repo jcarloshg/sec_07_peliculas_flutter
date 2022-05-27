@@ -33,6 +33,8 @@ class Movie {
   String? posterPath;
   String? releaseDate;
 
+  String? heroId;
+
   get fullPosterImg => posterPath == null
       ? 'https://i.stack.imgur.com/GNhxO.png'
       : 'https://image.tmdb.org/t/p/w500/$posterPath';

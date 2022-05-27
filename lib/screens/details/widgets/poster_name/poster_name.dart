@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:sec_07_peliculas_flutter/models/models_bussiness/models_bussiness.dart';
 
 class PosterName extends StatelessWidget {
   final String title;
   final String originalTitle;
   final double voteAverage;
   final String posterPath;
+  final String id;
 
   const PosterName({
     Key? key,
@@ -12,6 +14,7 @@ class PosterName extends StatelessWidget {
     required this.originalTitle,
     required this.voteAverage,
     required this.posterPath,
+    required this.id,
   }) : super(key: key);
 
   @override
@@ -23,14 +26,17 @@ class PosterName extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Row(
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: FadeInImage(
-              placeholder: const AssetImage('assets/loading.gif'),
-              image: NetworkImage(posterPath),
-              fit: BoxFit.cover,
-              height: 200,
-              width: 130,
+          Hero(
+            tag: id,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: FadeInImage(
+                placeholder: const AssetImage('assets/loading.gif'),
+                image: NetworkImage(posterPath),
+                fit: BoxFit.cover,
+                height: 200,
+                width: 130,
+              ),
             ),
           ),
           const SizedBox(width: 15),

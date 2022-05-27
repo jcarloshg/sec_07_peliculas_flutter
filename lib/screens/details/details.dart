@@ -25,6 +25,7 @@ class DetailsScreen extends StatelessWidget {
                   originalTitle: movie.originalTitle,
                   voteAverage: movie.voteAverage,
                   posterPath: movie.fullPosterImg,
+                  id: movie.heroId!,
                 ),
                 Overview(overview: movie.overview),
                 Overview(overview: movie.overview),
