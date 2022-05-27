@@ -49,40 +49,67 @@ class MovieSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    // ignore: avoid_print
-    print(query);
-
     if (query.isEmpty) return _searchMovieEmpty(query);
 
     final MoviesProvider moviesProvider =
         Provider.of<MoviesProvider>(context, listen: false);
+    moviesProvider.getSuggetionsByQuery(query);
 
-    return FutureBuilder(
-      future: moviesProvider.searchMovie(query),
+    return StreamBuilder(
+      stream: moviesProvider.suggestionStream,
       builder: (context, AsyncSnapshot<List<Movie>> snapshot) {
-        if (!snapshot.hasData) {
-          return _searchMovieEmpty('No hay pelis relacionadas');
-        }
+        if (!snapshot.hasData) return _searchMovieEmpty('not pelis');
 
         final movies = snapshot.data?.map((movie) {
           movie.heroId = 'buildSuggestions-${movie.id}';
           return movie;
         }).toList();
 
-        return GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            crossAxisSpacing: 15,
-            mainAxisSpacing: 15,
-            childAspectRatio: 0.5,
-          ),
-          itemCount: snapshot.data?.length,
-          itemBuilder: (BuildContext context, int index) => Hero(
-            tag: movies![index].heroId!,
-            child: ListTitleMovie(movie: movies[index]),
+        return Padding(
+          padding: const EdgeInsets.only(left: 15, right: 15),
+          child: GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              crossAxisSpacing: 15,
+              mainAxisSpacing: 15,
+              childAspectRatio: 0.5,
+            ),
+            itemCount: movies?.length,
+            itemBuilder: (context, index) => Hero(
+              tag: movies![index].heroId!,
+              child: ListTitleMovie(movie: movies[index]),
+            ),
           ),
         );
       },
     );
+
+    // return FutureBuilder(
+    //   future: moviesProvider.searchMovie(query),
+    //   builder: (context, AsyncSnapshot<List<Movie>> snapshot) {
+    //     if (!snapshot.hasData) {
+    //       return _searchMovieEmpty('No hay pelis relacionadas');
+    //     }
+
+    //     final movies = snapshot.data?.map((movie) {
+    //       movie.heroId = 'buildSuggestions-${movie.id}';
+    //       return movie;
+    //     }).toList();
+
+    //     return GridView.builder(
+    //       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+    //         crossAxisCount: 3,
+    //         crossAxisSpacing: 15,
+    //         mainAxisSpacing: 15,
+    //         childAspectRatio: 0.5,
+    //       ),
+    //       itemCount: snapshot.data?.length,
+    //       itemBuilder: (BuildContext context, int index) => Hero(
+    //         tag: movies![index].heroId!,
+    //         child: ListTitleMovie(movie: movies[index]),
+    //       ),
+    //     );
+    //   },
+    // );
   }
 }
