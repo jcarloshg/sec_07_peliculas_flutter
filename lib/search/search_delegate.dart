@@ -69,9 +69,6 @@ class MovieSearchDelegate extends SearchDelegate {
           return movie;
         }).toList();
 
-        // final List<Movie> listMovies = [];
-        // movies?.forEach((element) => print(element));
-
         return GridView.builder(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3,
